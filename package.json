@@ -1,0 +1,27 @@
+{
+  "name": "team-summary",
+  "version": "0.0.1",
+  "description": "summarizes team member information in an html file",
+  "main": "app.js",
+  "directories": {
+    "lib": "lib",
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kjenkins5678/Team-Summary.git"
+  },
+  "author": "k jenkins",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kjenkins5678/Team-Summary/issues"
+  },
+  "homepage": "https://github.com/kjenkins5678/Team-Summary#readme",
+  "dependencies": {
+    "inquirer": "^7.0.4",
+    "jest": "^25.1.0"
+  }
+}
