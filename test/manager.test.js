@@ -21,7 +21,7 @@ describe("Manager", () => {
         it("returns Manager", () => {
           const boss = new Manager("Bob", "Builder", 1, 100);
     
-          expect(test.getRole()).toEqual("Manager");
+          expect(boss.getRole()).toEqual("Manager");
         });
       });
 });
