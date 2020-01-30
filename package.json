@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/kjenkins5678/Team-Summary#readme",
   "dependencies": {
+    "axios": "^0.19.2",
     "inquirer": "^7.0.4",
     "jest": "^25.1.0"
   }
