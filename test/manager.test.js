@@ -9,13 +9,13 @@ describe("Manager", () => {
       });
     });
 
-    describe("GetOfficeNumber", () => {
-        it("returns the Manager's office number", () => {
-          const boss = new Manager("Bob", "Builder", 1, 100);
+    // describe("GetOfficeNumber", () => {
+    //     it("returns the Manager's office number", () => {
+    //       const boss = new Manager("Bob", "Builder", 1, 100);
     
-          expect(boss.officeNumber).toEqual(100);
-        });
-      });
+    //       expect(boss.officeNumber).toEqual(100);
+    //     });
+    //   });
 
       describe("GetRole", () => {
         it("returns Manager", () => {
