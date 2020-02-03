@@ -22,28 +22,7 @@ describe("Employee", () => {
         it("returns employee", () => {
           const test = new Employee("Bob", "Builder", 1);
     
-          expect(test.getRole()).toEqual("Employee");
+          expect(test.getRole()).toEqual("Builder");
         });
       });
-
-      // describe('test user input', () => {
-
-      //   // stub inquirer
-      //   let backup;
-      //   before(() => {
-      //     backup = inquirer.prompt;
-      //     inquirer.prompt = (questions) => Promise.resolve({email: 'test'})
-      //   })
-      
-      //   it('should equal test', () => {
-      //     module(...).then(answers => answers.email.should.equal('test'))
-      //   })
-      
-      //   // restore
-      //   after(() => {
-      //     inquirer.prompt = backup
-      //   })
-      
-      // })
-
 });
