@@ -3,6 +3,8 @@ const Manager = require('./lib/manager');
 const Engineer = require('./lib/engineer');
 const Intern = require('./lib/intern');
 
+//The Questions
+
 var generalQuestions = [
     {
         type: "input",
@@ -31,15 +33,61 @@ var managerQuestions = [
       type: "input",
       name: "office",
       message: "Enter the Manager's Office Number"
+  },
+  {
+      type: "confirm",
+      name: "keepAsking",
+      message: "Add More Employees?"
+  }
+];
+
+var engineerQuestions = [
+  {
+      type: "input",
+      name: "github",
+      message: "Enter the Engineer's Github Username"
+  },
+  {
+      type: "confirm",
+      name: "keepAsking",
+      message: "Add More Employees?"
+  }
+];
+
+var internQuestions = [
+  {
+      type: "input",
+      name: "school",
+      message: "Enter the Intern's School"
+  },
+  {
+      type: "confirm",
+      name: "keepAsking",
+      message: "Add More Employees?"
   }
 ];
 
 function ask(generalQuestions) {
+
   inquirer.prompt(generalQuestions).then(answers => {
+
       if (answers.title == 'Manager'){
         ask(managerQuestions);
+
+      } else if (answers.title == 'Engineer'){
+        ask(engineerQuestions);
+
+      } else if (answers.title == 'Intern') {
+        ask(internQuestions);
+
+      } else {
+        console.log("in the else statement");
       }
+
+      
+
   });
+
 }
 
 ask(generalQuestions);
