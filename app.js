@@ -3,9 +3,7 @@ const Manager = require('./lib/manager');
 const Engineer = require('./lib/engineer');
 const Intern = require('./lib/intern');
 
-var output = [];
-
-var questions = [
+var generalQuestions = [
     {
         type: "input",
         name: "name",
@@ -25,26 +23,23 @@ var questions = [
         type: "input",
         name: "id",
         message: "Enter their unique id"
-    },
+    }
+];
+
+var managerQuestions = [
   {
-    type: 'confirm',
-    name: 'askAgain',
-    message: 'Want to enter another employee? (just hit enter for YES)?',
-    default: true
+      type: "input",
+      name: "office",
+      message: "Enter the Manager's Office Number"
   }
 ];
 
-function ask() {
-  inquirer.prompt(questions).then(answers => {
-    if (answers.title == "Manager") {
-        console.log("Manager");
-    }
-    if (answers.askAgain) {
-      ask();
-    } else {
-    //   console.log('Your favorite TV Shows:', output.join(', '));
-    }
+function ask(generalQuestions) {
+  inquirer.prompt(generalQuestions).then(answers => {
+      if (answers.title == 'Manager'){
+        ask(managerQuestions);
+      }
   });
 }
 
-ask();
+ask(generalQuestions);
