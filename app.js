@@ -69,27 +69,55 @@ var internQuestions = [
   }
 ];
 
-function ask(generalQuestions) {
+function promptUser() {
+  inquirer.prompt(generalQuestions).then(generalAnswers => {
 
-  inquirer.prompt(generalQuestions).then(answers => {
+    if (generalAnswers.title == 'Manager'){
 
-    console.log("first propmt: " + JSON.stringify(answers));
+        inquirer.prompt(managerQuestions).then(roleAnswers => {
+          
+          answers = {...generalAnswers, ...roleAnswers}
+          //create classes and push here
+          console.log(answers);
 
-      if (answers.title == 'Manager'){
-        ask(managerQuestions);
+          if (answers.keepAsking) {
+            console.log("asking again");
+            promptUser();
+          }
+        })
 
-      } else if (answers.title == 'Engineer'){
-        ask(engineerQuestions);
+      } else if (generalAnswers.title == 'Engineer'){
 
-      } else if (answers.title == 'Intern') {
-        ask(internQuestions);
+        inquirer.prompt(engineerQuestions).then(roleAnswers => {
+          
+          answers = {...generalAnswers, ...roleAnswers}
+          //create classes and push here
+          console.log(answers);
+
+          if (answers.keepAsking) {
+            console.log("asking again");
+            promptUser();
+          }
+        })
+        
+      } else if (generalAnswers.title == 'Intern') {
+
+        inquirer.prompt(internQuestions).then(roleAnswers => {
+          
+          answers = {...generalAnswers, ...roleAnswers}
+          //create classes and push here
+          console.log(answers);
+
+          if (answers.keepAsking) {
+            console.log("asking again");
+            promptUser();
+          }
+        })
 
       } else {
-        console.log("second prompt: " + JSON.stringify(answers));
+        console.log("final else statement");
       }
-
   });
-
 }
 
-ask(generalQuestions);
+promptUser();
