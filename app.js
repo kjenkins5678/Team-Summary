@@ -3,6 +3,8 @@ const Manager = require('./lib/manager');
 const Engineer = require('./lib/engineer');
 const Intern = require('./lib/intern');
 
+var output = [];
+
 //The Questions
 
 var generalQuestions = [
@@ -71,6 +73,8 @@ function ask(generalQuestions) {
 
   inquirer.prompt(generalQuestions).then(answers => {
 
+    console.log("first propmt: " + JSON.stringify(answers));
+
       if (answers.title == 'Manager'){
         ask(managerQuestions);
 
@@ -81,10 +85,8 @@ function ask(generalQuestions) {
         ask(internQuestions);
 
       } else {
-        console.log("in the else statement");
+        console.log("second prompt: " + JSON.stringify(answers));
       }
-
-      
 
   });
 
