@@ -27,6 +27,11 @@ var generalQuestions = [
         type: "input",
         name: "id",
         message: "Enter their unique id"
+    },
+    {
+      type: "input",
+      name: "email",
+      message: "Enter their Email Address"
     }
 ];
 
@@ -77,12 +82,17 @@ function promptUser() {
         inquirer.prompt(managerQuestions).then(roleAnswers => {
           
           answers = {...generalAnswers, ...roleAnswers}
-          //create classes and push here
-          console.log(answers);
+          
+          let boss = new Manager(answers.name, answers.title, answers.id);
+          
+          output.push(boss);
+
+          console.log(output);
 
           if (answers.keepAsking) {
-            console.log("asking again");
             promptUser();
+          } else {
+            console.log("do some processing")
           }
         })
 
@@ -91,8 +101,13 @@ function promptUser() {
         inquirer.prompt(engineerQuestions).then(roleAnswers => {
           
           answers = {...generalAnswers, ...roleAnswers}
-          //create classes and push here
-          console.log(answers);
+          
+          let engin = new Engineer(answers.name, answers.title, answers.id);
+          
+          output.push(engin);
+
+          console.log(output);
+
 
           if (answers.keepAsking) {
             console.log("asking again");
@@ -105,8 +120,13 @@ function promptUser() {
         inquirer.prompt(internQuestions).then(roleAnswers => {
           
           answers = {...generalAnswers, ...roleAnswers}
-          //create classes and push here
-          console.log(answers);
+          
+          let intern = new Intern(answers.name, answers.title, answers.id);
+          
+          output.push(intern);
+
+          console.log(output.length);
+
 
           if (answers.keepAsking) {
             console.log("asking again");
