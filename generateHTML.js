@@ -21,48 +21,107 @@ output.push(intern);
 
 //html needed to patch the peices together
 
-fs.readFile("./templates/main.html", "utf8", function(error, data) {
+rowOpenHtml = `
+<div class="row justify-content-center ">`
+rowCloseHtml = `</div>`
+closeFile = `
+</div>
+</body>
+</html>`
+
+//how many rows do I need in my html?
+
+// fs.readFile("./templates/main.html", "utf8", function(error, data) {
+
+//     if (error) {
+//       return console.log(error);
+//     }
+  
+//     fs.writeFile('./output/TeamSummary.html', data, function(err) {
+
+//       if (err) {
+//         return console.log(err);
+//       }
+
+//       console.log("Created File!");
+
+//       // Use this to Iterate through multiple rows
+
+//       while (neededRows > 0){
+//           //append rowOpenHtml
+//           fs.appendFile('./output/TeamSummary.html', rowOpenHtml, function(err){
+//             if (err){
+//               return console.log(err);
+//             }
+
+//             console.log("Added row open html to file");
+            
+//           });
+
+//           //iterate through first row
+
+
+//           //append rowCloseHtml
+//           fs.appendFile('./output/TeamSummary.html', rowCloseHtml, function(err){
+//             if (err){
+//               return console.log(err);
+//             }
+    
+//             console.log("Added row close html to file");
+//           });
+
+//           //Decrement needed rows
+//           neededRows--;
+//       }
+
+//       fs.appendFile('./output/TeamSummary.html', closeFile, function(err){
+//         if (err){
+//           return console.log(err);
+//         }
+
+//         console.log("Added closing html to file");
+//       });
+      
+//     });
+//   });
+
+
+function writeCard(cardtype, i){
+  fs.readFile("./templates/" + cardtype + ".html", "utf8", function(error, data) {
 
     if (error) {
       return console.log(error);
     }
-  
-    console.log(data);
 
-    
-  
+    var res = data.replace("#name", output[i].name);
+    res = res.replace("#id", output[i].id);
+
+    fs.appendFile('./output/TeamSummary.html', res, function(err){
+      if (err){
+        return console.log(err);
+      }
+
+      console.log("Added card closing html to file");
+
+    });
   });
+};
 
-rowOpenHtml = '<div class="row justify-content-center ">'
-rowCloseHtml = '</div>'
+for (i = 0; i < output.length; i++){
+    if (output[i].constructor.name==="Manager"){
+      console.log("its a manager");
+      let cardtype = "intern"
+      writeCard(cardtype, i);
 
+    } else if (output[i].constructor.name==="Engineer"){
+      console.log("its an Engineer");
+      let cardtype = "engineer"
+      writeCard(cardtype, i);
 
+    } else if (output[i].constructor.name==="Intern"){
+      console.log("its an intern");
+      let cardtype = "intern"
+      writeCard(cardtype, i);
 
-// fs.appendFile('./output/TeamSummary.html', 'data to append', function (err) {
-//     if (err) throw err;
-//     console.log('Saved!');
-//   });
-
-
-
-/* Use this to Iterate through multiple rows
-//how many rows do I need in my html?
-var neededRows = Math.ceil(output.length/4)
-
-while (neededRows > 0){
-    //append rowOpenHtml
-    
-    //iterate through first row
-
-    //append rowCloseHtml
-    neededRows--;
+    }
 }
-
-// for (i = 0; i < output.length; i++){
-//     // console.log(output[i]);
-//     // console.log(output[i].constructor.name);
-//     if (output[i].constructor.name==="Manager"){
-//         console.log("its a manager");
-//     } 
-// }
-*/
