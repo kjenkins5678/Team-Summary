@@ -3,6 +3,8 @@ const Manager = require('./lib/manager');
 const Engineer = require('./lib/engineer');
 const Intern = require('./lib/intern');
 
+const generateHtml = require('./generateHTML')
+
 var output = [];
 
 //The Questions
@@ -83,7 +85,7 @@ function promptUser() {
           
           answers = {...generalAnswers, ...roleAnswers}
           
-          let boss = new Manager(answers.name, answers.title, answers.id, answers.email);
+          let boss = new Manager(answers.name, answers.title, answers.id, answers.email, answers.office);
           
           output.push(boss);
 
@@ -92,7 +94,8 @@ function promptUser() {
           if (answers.keepAsking) {
             promptUser();
           } else {
-            console.log("do some processing")
+            //Build HTML
+            generateHtml.buildHtml(output);
           }
         })
 
@@ -102,7 +105,7 @@ function promptUser() {
           
           answers = {...generalAnswers, ...roleAnswers}
           
-          let engin = new Engineer(answers.name, answers.title, answers.id, answers.email);
+          let engin = new Engineer(answers.name, answers.title, answers.id, answers.email, answers.github);
           
           output.push(engin);
 
@@ -121,12 +124,9 @@ function promptUser() {
           
           answers = {...generalAnswers, ...roleAnswers}
           
-          let intern = new Intern(answers.name, answers.title, answers.id, answers.email);
+          let intern = new Intern(answers.name, answers.title, answers.id, answers.email, answers.school);
           
           output.push(intern);
-
-          console.log(output.length);
-
 
           if (answers.keepAsking) {
             console.log("asking again");
@@ -141,3 +141,4 @@ function promptUser() {
 }
 
 promptUser();
+
