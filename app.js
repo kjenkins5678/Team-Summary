@@ -83,7 +83,7 @@ function promptUser() {
           
           answers = {...generalAnswers, ...roleAnswers}
           
-          let boss = new Manager(answers.name, answers.title, answers.id);
+          let boss = new Manager(answers.name, answers.title, answers.id, answers.email);
           
           output.push(boss);
 
@@ -102,7 +102,7 @@ function promptUser() {
           
           answers = {...generalAnswers, ...roleAnswers}
           
-          let engin = new Engineer(answers.name, answers.title, answers.id);
+          let engin = new Engineer(answers.name, answers.title, answers.id, answers.email);
           
           output.push(engin);
 
@@ -121,7 +121,7 @@ function promptUser() {
           
           answers = {...generalAnswers, ...roleAnswers}
           
-          let intern = new Intern(answers.name, answers.title, answers.id);
+          let intern = new Intern(answers.name, answers.title, answers.id, answers.email);
           
           output.push(intern);
 

@@ -4,6 +4,10 @@ const Intern = require('./lib/intern');
 
 const fs = require('fs');
 
+/*
+* Creating Test Object
+*/
+
 //output list like results from app.js
 var output = [];
 
@@ -12,21 +16,17 @@ var boss = new Manager("Tina", "Manager", 1);
 output.push(boss);
 var engin = new Engineer("Sara", "Engineer", 2);
 output.push(engin);
-// var engin2 = new Engineer("Tim", "Engineer", 4);
-// output.push(engin2);
+var engin2 = new Engineer("Tim", "Engineer", 4);
+output.push(engin2);
 var intern = new Intern("Bob", "Intern", 3);
 output.push(intern);
-// var intern2 = new Intern("Mary", "Intern", 5);
-// output.push(intern2);
+var intern2 = new Intern("Mary", "Intern", 5);
+output.push(intern2);
 
-//html needed to patch the peices together
-rowOpenHtml = `
-<div class="row justify-content-center ">`
-rowCloseHtml = `</div>`
-closeFile = `
-</div>
-</body>
-</html>`
+/*
+* Breaking object up so that no row has more than 4 cards.
+* If more than 4, create a new row
+*/
 
 function chunkArray(array, chunkSize) {
     return Array.from(
@@ -37,6 +37,22 @@ function chunkArray(array, chunkSize) {
 
 var newOutput = chunkArray(output, 4)
 
+/*
+* Gather HTML into a String
+*/
+
+html = null;
+managerHtml = null;
+engineerHtml = null;
+
+//row html
+rowOpenHtml = `
+<div class="row justify-content-center mb-3">`
+rowCloseHtml = `</div>`
+closeFile = `
+</div>
+</body>
+</html>`
 
 
 fs.readFile("./templates/main.html", "utf8", function(error, data) {
@@ -44,93 +60,97 @@ fs.readFile("./templates/main.html", "utf8", function(error, data) {
     if (error) {
       return console.log(error);
     }
-  
-    fs.writeFile('./output/TeamSummary.html', data, function(err) {
 
-      if (err) {
-        return console.log(err);
-      }
+    html = data;
 
-      console.log("Created File!");
+    fs.readFile("./templates/manager.html", "utf8", function(error, data) {
 
-      // Use this to Iterate through multiple rows
-
-      for (i = 0; i < newOutput.length; i++){
-
-        console.log("outside the append: " + newOutput[i]);
-        console.log("outside append" + i);
-
-
-        //append rowOpenHtml
-        fs.appendFile('./output/TeamSummary.html', rowOpenHtml, function(err){
-            if (err){
-                return console.log(err);
-            }
-
-            console.log("Added row open html to file");
-
-            console.log(newOutput[i]);
-            // iterate through cards
-            // for (k = 0; k < newOutput[0].length; k++){
-
-            //     if (output[0].constructor.name==="Manager"){
-            //         console.log("its a manager");
-            //         let cardtype = "intern"
-            //         writeCard(cardtype, k);
-            
-            //     } else if (output[0].constructor.name==="Engineer"){
-            //         console.log("its an Engineer");
-            //         let cardtype = "engineer"
-            //         writeCard(cardtype, k);
-            
-            //     } else if (output[0].constructor.name==="Intern"){
-            //         console.log("its an intern");
-            //         let cardtype = "intern"
-            //         writeCard(cardtype,k);
-            //     }
-            // }
-
-            });
-
-          //append rowCloseHtml
-          fs.appendFile('./output/TeamSummary.html', rowCloseHtml, function(err){
-            if (err){
-              return console.log(err);
-            }
-    
-            console.log("Added row close html to file");
-          });
-
-      }
-
-      fs.appendFile('./output/TeamSummary.html', closeFile, function(err){
-        if (err){
-          return console.log(err);
+        if (error) {
+            return console.log(error);
         }
 
-        console.log("Added closing html to file");
-      });
+        managerHtml = data;
+
+        fs.readFile("./templates/engineer.html", "utf8", function(error, data) {
+
+            if (error) {
+                return console.log(error);
+            }
+    
+            engineerHtml = data;
+    
+            fs.readFile("./templates/intern.html", "utf8", function(error, data) {
+
+                if (error) {
+                    return console.log(error);
+                }
+        
+                internHtml = data;
+        
+                for (i = 0; i < newOutput.length; i++){
+                    // console.log("row #: " + i);
+                
+                    html += rowOpenHtml;
+                
+                    for (k = 0; k < newOutput[i].length; k++){
+                
+                        if (newOutput[i][k].constructor.name==="Manager"){
+                            console.log("its a manager");
+
+                            let newCard = managerHtml;
+
+                            let newCardName = newCard.replace("#name", newOutput[i][k].name);
+
+                            let newCardID = newCardName.replace("#id", newOutput[i][k].id);
+
+                            html += newCardID;
+                    
+                        } else if (newOutput[i][k].constructor.name==="Engineer"){
+                            console.log("its an Engineer");
+
+                            let newCard = engineerHtml;
+
+                            let newCardName = newCard.replace("#name", newOutput[i][k].name);
+
+                            let newCardID = newCardName.replace("#id", newOutput[i][k].id);
+
+                            html += newCardID;
+                    
+                        } else if (newOutput[i][k].constructor.name==="Intern"){
+                            console.log("its an intern");
+
+                            let newCard = internHtml;
+
+                            let newCardName = newCard.replace("#name", newOutput[i][k].name);
+
+                            let newCardID = newCardName.replace("#id", newOutput[i][k].id);
+
+                            html += newCardID;
+                            }
+                        }
+                    
+                    html += rowCloseHtml;
+                    
+                    };
+                
+                    html += closeFile
+                
+                    // console.log(html);
+
+                    fs.writeFile('./output/TeamSummary.html', html, function(err) {
+
+                        if (err) {
+                          return console.log(err);
+                        }
+
+                        console.log("Created new HTML file");
+
+                    });
+        
+            });
+    
+        });
+
     });
-  });
 
-
-function writeCard(cardtype, i){
-  fs.readFile("./templates/" + cardtype + ".html", "utf8", function(error, data) {
-
-    if (error) {
-      return console.log(error);
-    }
-
-    var res = data.replace("#name", output[i].name);
-    res = res.replace("#id", output[i].id);
-
-    fs.appendFile('./output/TeamSummary.html', res, function(err){
-      if (err){
-        return console.log(err);
-      }
-
-      console.log("Added card closing html to file");
-
-    });
-  });
-};
+});
