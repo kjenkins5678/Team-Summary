@@ -97,7 +97,6 @@ function buildHtml(output){
                         for (k = 0; k < newOutput[i].length; k++){
                     
                             if (newOutput[i][k].constructor.name==="Manager"){
-                                console.log("its a manager");
 
                                 let newCard = managerHtml;
 
@@ -105,10 +104,13 @@ function buildHtml(output){
 
                                 let newCardID = newCardName.replace("#id", newOutput[i][k].id);
 
-                                html += newCardID;
+                                let newCardEmail = newCardID.replace("#email", newOutput[i][k].email);
+
+                                let newCardOffice = newCardEmail.replace("#office", newOutput[i][k].officeNum);
+
+                                html += newCardOffice;
                         
                             } else if (newOutput[i][k].constructor.name==="Engineer"){
-                                console.log("its an Engineer");
 
                                 let newCard = engineerHtml;
 
@@ -116,10 +118,13 @@ function buildHtml(output){
 
                                 let newCardID = newCardName.replace("#id", newOutput[i][k].id);
 
-                                html += newCardID;
+                                let newCardEmail = newCardID.replace("#email", newOutput[i][k].email);
+
+                                let newCardGithub= newCardEmail.replace("#github", newOutput[i][k].githubName);
+
+                                html += newCardGithub;
                         
                             } else if (newOutput[i][k].constructor.name==="Intern"){
-                                console.log("its an intern");
 
                                 let newCard = internHtml;
 
@@ -127,7 +132,11 @@ function buildHtml(output){
 
                                 let newCardID = newCardName.replace("#id", newOutput[i][k].id);
 
-                                html += newCardID;
+                                let newCardEmail = newCardID.replace("#email", newOutput[i][k].email);
+
+                                let newCardSchool = newCardEmail.replace("#school", newOutput[i][k].school);
+
+                                html += newCardSchool;
                                 }
                             }
                         
@@ -137,8 +146,6 @@ function buildHtml(output){
                     
                         html += closeFile
                     
-                        // console.log(html);
-
                         fs.writeFile('./output/TeamSummary.html', html, function(err) {
 
                             if (err) {
@@ -146,7 +153,6 @@ function buildHtml(output){
                             }
 
                             console.log("Created new HTML file");
-
                         });
             
                     });

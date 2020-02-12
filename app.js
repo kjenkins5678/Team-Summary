@@ -89,8 +89,6 @@ function promptUser() {
           
           output.push(boss);
 
-          console.log(output);
-
           if (answers.keepAsking) {
             promptUser();
           } else {
@@ -109,12 +107,11 @@ function promptUser() {
           
           output.push(engin);
 
-          console.log(output);
-
-
           if (answers.keepAsking) {
-            console.log("asking again");
             promptUser();
+          } else {
+            //Build HTML
+            generateHtml.buildHtml(output);
           }
         })
         
@@ -129,14 +126,13 @@ function promptUser() {
           output.push(intern);
 
           if (answers.keepAsking) {
-            console.log("asking again");
             promptUser();
+          } else {
+            //Build HTML
+            generateHtml.buildHtml(output);
           }
         })
-
-      } else {
-        console.log("final else statement");
-      }
+      } 
   });
 }
 
