@@ -20,7 +20,6 @@ output.push(intern);
 // output.push(intern2);
 
 //html needed to patch the peices together
-
 rowOpenHtml = `
 <div class="row justify-content-center ">`
 rowCloseHtml = `</div>`
@@ -29,61 +28,90 @@ closeFile = `
 </body>
 </html>`
 
-//how many rows do I need in my html?
+function chunkArray(array, chunkSize) {
+    return Array.from(
+      { length: Math.ceil(array.length / chunkSize) },
+      (_, index) => array.slice(index * chunkSize, (index + 1) * chunkSize)   
+    );
+  }
 
-// fs.readFile("./templates/main.html", "utf8", function(error, data) {
+var newOutput = chunkArray(output, 4)
 
-//     if (error) {
-//       return console.log(error);
-//     }
+
+
+fs.readFile("./templates/main.html", "utf8", function(error, data) {
+
+    if (error) {
+      return console.log(error);
+    }
   
-//     fs.writeFile('./output/TeamSummary.html', data, function(err) {
+    fs.writeFile('./output/TeamSummary.html', data, function(err) {
 
-//       if (err) {
-//         return console.log(err);
-//       }
+      if (err) {
+        return console.log(err);
+      }
 
-//       console.log("Created File!");
+      console.log("Created File!");
 
-//       // Use this to Iterate through multiple rows
+      // Use this to Iterate through multiple rows
 
-//       while (neededRows > 0){
-//           //append rowOpenHtml
-//           fs.appendFile('./output/TeamSummary.html', rowOpenHtml, function(err){
-//             if (err){
-//               return console.log(err);
-//             }
+      for (i = 0; i < newOutput.length; i++){
 
-//             console.log("Added row open html to file");
+        console.log("outside the append: " + newOutput[i]);
+        console.log("outside append" + i);
+
+
+        //append rowOpenHtml
+        fs.appendFile('./output/TeamSummary.html', rowOpenHtml, function(err){
+            if (err){
+                return console.log(err);
+            }
+
+            console.log("Added row open html to file");
+
+            console.log(newOutput[i]);
+            // iterate through cards
+            // for (k = 0; k < newOutput[0].length; k++){
+
+            //     if (output[0].constructor.name==="Manager"){
+            //         console.log("its a manager");
+            //         let cardtype = "intern"
+            //         writeCard(cardtype, k);
             
-//           });
+            //     } else if (output[0].constructor.name==="Engineer"){
+            //         console.log("its an Engineer");
+            //         let cardtype = "engineer"
+            //         writeCard(cardtype, k);
+            
+            //     } else if (output[0].constructor.name==="Intern"){
+            //         console.log("its an intern");
+            //         let cardtype = "intern"
+            //         writeCard(cardtype,k);
+            //     }
+            // }
 
-//           //iterate through first row
+            });
 
-
-//           //append rowCloseHtml
-//           fs.appendFile('./output/TeamSummary.html', rowCloseHtml, function(err){
-//             if (err){
-//               return console.log(err);
-//             }
+          //append rowCloseHtml
+          fs.appendFile('./output/TeamSummary.html', rowCloseHtml, function(err){
+            if (err){
+              return console.log(err);
+            }
     
-//             console.log("Added row close html to file");
-//           });
+            console.log("Added row close html to file");
+          });
 
-//           //Decrement needed rows
-//           neededRows--;
-//       }
+      }
 
-//       fs.appendFile('./output/TeamSummary.html', closeFile, function(err){
-//         if (err){
-//           return console.log(err);
-//         }
+      fs.appendFile('./output/TeamSummary.html', closeFile, function(err){
+        if (err){
+          return console.log(err);
+        }
 
-//         console.log("Added closing html to file");
-//       });
-      
-//     });
-//   });
+        console.log("Added closing html to file");
+      });
+    });
+  });
 
 
 function writeCard(cardtype, i){
@@ -106,22 +134,3 @@ function writeCard(cardtype, i){
     });
   });
 };
-
-for (i = 0; i < output.length; i++){
-    if (output[i].constructor.name==="Manager"){
-      console.log("its a manager");
-      let cardtype = "intern"
-      writeCard(cardtype, i);
-
-    } else if (output[i].constructor.name==="Engineer"){
-      console.log("its an Engineer");
-      let cardtype = "engineer"
-      writeCard(cardtype, i);
-
-    } else if (output[i].constructor.name==="Intern"){
-      console.log("its an intern");
-      let cardtype = "intern"
-      writeCard(cardtype, i);
-
-    }
-}
